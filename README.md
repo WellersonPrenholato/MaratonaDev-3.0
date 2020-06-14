@@ -32,10 +32,10 @@ O sistema Doe Sangue é um cadastro doadores de sangue, feito com Node.js, Postg
 ## Frontend
 
 Página com o form oculto
-<img align="center" src="./readme-image/hide-form.png"></img>
+<img align="center" src="./readme-img/hide-form.png"></img>
 
 Página com o form exposto, ao ser clicado o botão "Quero ajudar"
-<img align="center" src="./readme-image/show-form.png"></img>
+<img align="center" src="./readme-img/show-form.png"></img>
 
 ## Instalação
 
