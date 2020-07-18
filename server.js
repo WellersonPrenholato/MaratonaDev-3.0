@@ -8,32 +8,22 @@ server.use(express.static('public'));
 //Habilitat Body(corpo) do formulário
 server.use(express.urlencoded({extended:true}))
 
+//Configurar a conexão com o banco de dados
+const Pool = require('pg').Pool;
+const db = new Pool({
+    user: 'postgres',
+    password: 'root',
+    host: 'localhost',
+    port: 5432,
+    database: 'doe'
+});
+
 //Configurando a template engine
 const nunjucks = require("nunjucks");
 nunjucks.configure("./", {
     express: server,
     noCache: true,
 });
-
-//Lista de doadores
-const donors = [
-    {
-        name: "Diego Fernandes",
-        blood: "AB+"
-    },
-    {
-        name: "Cleiton Souza",
-        blood: "AB+"
-    },
-    {
-        name: "Robson Marques",
-        blood: "O-"
-    },
-    {
-        name: "Wellerson Prenholato",
-        blood: "O-"
-    },
-]
 
 //Configurar a apresentação da página
 server.get("/", function(req, res) {
@@ -46,11 +36,10 @@ server.post("/", function(req, res){
     const email = req.body.email
     const blood = req.body.blood
 
-    //Coloco valores dentro do array
-    donors.push({
-        name:name,
-        blood:blood,
-    })
+    //Coloco valores dentro do banco de dados
+    const query = `INSERT INTO donors ("name", "email", "blood") 
+                    VALUES ($1, $2, $3)`;
+    db.query(query, [name, email, blood])
 
     return res.redirect("/");
 });
