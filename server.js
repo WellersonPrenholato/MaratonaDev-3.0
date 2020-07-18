@@ -27,6 +27,7 @@ nunjucks.configure("./", {
 
 //Configurar a apresentação da página
 server.get("/", function(req, res) {
+    const donors = []
     return res.render("index.html", {donors});
 });
 
@@ -48,12 +49,12 @@ server.post("/", function(req, res){
     const values = [name, email, blood];
 
     db.query(query, values, function(){
-        if (err){
-            return res.send("Erro no banco de dados.")
+        if(err){ 
+            return res.send("Erro no banco de dados.");
         }
-    })
-
-    return res.redirect("/");
+        
+        return res.redirect("/");
+    });
 });
 
 //Ligar o servidor e permitir o acesso na porta 3000
