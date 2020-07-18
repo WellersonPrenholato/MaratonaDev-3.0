@@ -36,6 +36,11 @@ server.post("/", function(req, res){
     const email = req.body.email
     const blood = req.body.blood
 
+    //Verifica se o valor é vazio antes de ser colocado no banco de dados
+    if (name == "" || email == "" || blood == ""){
+        return res.send("Todos os campos são obrigatórios.")
+    }
+
     //Coloco valores dentro do banco de dados
     const query = `INSERT INTO donors ("name", "email", "blood") 
                     VALUES ($1, $2, $3)`;
