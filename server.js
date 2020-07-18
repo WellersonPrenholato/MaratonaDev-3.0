@@ -27,8 +27,13 @@ nunjucks.configure("./", {
 
 //Configurar a apresentação da página
 server.get("/", function(req, res) {
-    const donors = []
-    return res.render("index.html", {donors});
+
+    db.query('SELECT * FROM donors', function(err, result){
+        if (err) return res.send("Erro no retorno do banco de dados.");
+
+        const donors = result.rows;
+        return res.render("index.html", {donors});
+    });
 });
 
 server.post("/", function(req, res){
@@ -39,7 +44,7 @@ server.post("/", function(req, res){
 
     //Verifica se o valor é vazio antes de ser colocado no banco de dados
     if (name == "" || email == "" || blood == ""){
-        return res.send("Todos os campos são obrigatórios.")
+        return res.send("Todos os campos são obrigatórios.");
     }
 
     //Coloco valores dentro do banco de dados
@@ -48,7 +53,7 @@ server.post("/", function(req, res){
 
     const values = [name, email, blood];
 
-    db.query(query, values, function(){
+    db.query(query, values, function(err){
         if(err){ 
             return res.send("Erro no banco de dados.");
         }
