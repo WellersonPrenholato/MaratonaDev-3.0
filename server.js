@@ -48,7 +48,9 @@ server.post("/", function(req, res){
     const values = [name, email, blood];
 
     db.query(query, values, function(){
-        
+        if (err){
+            return res.send("Erro no banco de dados.")
+        }
     })
 
     return res.redirect("/");
