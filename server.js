@@ -44,7 +44,12 @@ server.post("/", function(req, res){
     //Coloco valores dentro do banco de dados
     const query = `INSERT INTO donors ("name", "email", "blood") 
                     VALUES ($1, $2, $3)`;
-    db.query(query, [name, email, blood])
+
+    const values = [name, email, blood];
+
+    db.query(query, values, function(){
+        
+    })
 
     return res.redirect("/");
 });
